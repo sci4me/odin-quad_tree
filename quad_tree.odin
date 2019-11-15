@@ -1,6 +1,5 @@
 package quad_tree
 
-import "core:fmt"
 import "core:intrinsics"
 
 REGION_SELF :: -1;
