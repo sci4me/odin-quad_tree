@@ -69,6 +69,8 @@ insert :: proc(using qt: ^Quad_Tree($T, $V), r: Rect(T), value: V) {
 
     if len(nodes) >= max_nodes && level < max_level {
         temp: [dynamic]Quad_Tree_Node(T, V);
+        defer delete(temp);
+        
         for node in nodes do append(&temp, node);
         
         clear(&nodes);
