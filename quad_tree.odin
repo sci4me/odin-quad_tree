@@ -1,7 +1,6 @@
 package quad_tree
 
 import "core:fmt"
-import "core:math"
 import "core:intrinsics"
 
 REGION_SELF :: -1;
@@ -125,8 +124,8 @@ find_region :: proc(using qt: ^Quad_Tree($T, $V), r: Rect(T), should_split: bool
 split :: proc(using qt: ^Quad_Tree($T, $V)) {
     using_regions = true;
 
-    nw := cast(T) math.ceil(f64(zone.w) / 2);
-    nh := cast(T) math.ceil(f64(zone.h) / 2);
+    nw := zone.w / 2;
+    nh := zone.h / 2;
     nlevel := level + 1;
 
     regions[REGION_NW] = make_quad_tree(Rect(T){zone.x, zone.y + nh, nw, nh}, nlevel, V, max_nodes, max_level);
