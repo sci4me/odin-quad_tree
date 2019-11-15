@@ -86,7 +86,7 @@ query :: proc(using qt: ^Quad_Tree($T, $V), r: Rect(T), output: ^[dynamic]Quad_T
     if region != REGION_SELF {
         query(regions[region], r, output);
     } else {
-        query_all(qt, r, output, true);
+        query_all(qt, output);
     }
 }
 
@@ -95,9 +95,13 @@ get_zones :: proc(using qt: ^Quad_Tree($T, $V), output: ^[dynamic]Rect(T)) {
     if using_regions do for region in regions do get_zones(region, output);
 }
 
+query_all :: inline proc(using qt: ^Quad_Tree($T, $V), output: ^[dynamic]Quad_Tree_Node(T, V)) {
+    _query_all(qt, output, true);
+}
+
 @private
-query_all :: proc(using qt: ^Quad_Tree($T, $V), r: Rect(T), output: ^[dynamic]Quad_Tree_Node(T, V), first: bool) {
-    if using_regions do for i in 0..<4 do query_all(regions[i], r, output, false);
+_query_all :: proc(using qt: ^Quad_Tree($T, $V), output: ^[dynamic]Quad_Tree_Node(T, V), first: bool) {
+    if using_regions do for i in 0..<4 do _query_all(regions[i], output, false);
     if !first do for node in nodes do append(output, node);
 }
 
