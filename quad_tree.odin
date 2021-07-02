@@ -9,7 +9,7 @@ REGION_SW :: 2;
 REGION_SE :: 3;
 
 Rect :: struct(T: typeid) where intrinsics.type_is_numeric(T) {
-    x, y, w, h: T
+    x, y, w, h: T,
 }
 
 contains :: proc(a, b: Rect($T)) -> bool {
@@ -20,7 +20,7 @@ contains :: proc(a, b: Rect($T)) -> bool {
 
 Quad_Tree_Node :: struct(T: typeid, V: typeid) {
     zone: Rect(T),
-    value: V
+    value: V,
 }
 
 Quad_Tree :: struct(T: typeid, V: typeid) {
@@ -33,7 +33,7 @@ Quad_Tree :: struct(T: typeid, V: typeid) {
     using_regions: bool,
     
     max_nodes: int,
-    max_level: int
+    max_level: int,
 }
 
 make_quad_tree :: proc(_zone: Rect($T), _level: int, $V: typeid, _max_nodes: int, _max_level: int) -> ^Quad_Tree(T, V) {
@@ -95,7 +95,7 @@ get_zones :: proc(using qt: ^Quad_Tree($T, $V), output: ^[dynamic]Rect(T)) {
     if using_regions do for region in regions do get_zones(region, output);
 }
 
-query_all :: inline proc(using qt: ^Quad_Tree($T, $V), output: ^[dynamic]Quad_Tree_Node(T, V)) {
+query_all :: #force_inline proc(using qt: ^Quad_Tree($T, $V), output: ^[dynamic]Quad_Tree_Node(T, V)) {
     _query_all(qt, output, true);
 }
 
